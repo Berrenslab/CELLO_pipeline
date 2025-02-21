@@ -1,15 +1,14 @@
 *In development*
-# CELLO_pipeline
-Nextflow based CELLO-seq pipeline optimised for SLURM clusters. 
-If steps have same number, they are synchronous. 
+# CELLO_pipeline step 1
+## Introduction
+Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details.
 
-### Dealing with pipeline errors 
-Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are issues, you look for the error codes. If this is not enough, you can identify the problematic processes and cd ```work/problematic/process``` and ```ls -lha``` to see all files: .command.out and .command.err are the most useful. 
-
-## Step I: pre demultiplexing 
-### How to run
+## Set-up 
 1. cd to your directory with your raw CELLO-seq fastq files
-2. Edit parameters.json
+2. Create a parameter file (e.g. 1_parameters.json) to specify how your pipeline should run
+* note that the cpus / time / memory you ask is per task
+* Note that demultiplexing requires much more memory than the other tasks
+* this is an example 1_parameters.json for a large dataset
 ```
 {
     "singularity": "/path/to/sarlacc.img", 
@@ -47,35 +46,13 @@ Input: reads (*fastq.gz)
 2. Demultiplexes plate into barcodes
 Output: barcode_\*.fastq and barcode_\*.fastq.rds
 
-## Step II: post demultiplexing
-### How to run
-1. Edit parameters.json (see above)
-2. Run nextflow (see above for description)
-```
-module load nextflow
-nextflow -bg run /ceph/project/CELLOseq/frivetti/next/code/step_II.nf -params-file parameters.json > step_II.log
-```
-3. Remove work/ only when you are done
-4. Continue to FLAIR pipeline
-
-### Description
-Input: barcode_\*.fastq, barcode_\*.fastq.rds, tso.rds, dT.rds. 
-- Analysis is repeated per barcode
-1. dT adaptor filer
-1. TSO adaptor filter
-1. Align to reference genome
-2. Grouping of reads by UMI
-3. Error-correction of reads by UMI
-Output: error-corrected and demultiplexed fastq reads. 
+### Dealing with pipeline errors 
+Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are issues, you look for the error codes. If this is not enough, you can identify the problematic processes and cd ```work/problematic/process``` and ```ls -lha``` to see all files: .command.out and .command.err are the most useful. 
 
 
 ### Da fare 
-1. Strategia d'errore - limitata
+1. Strategia d'errore - ignore
+2. separa cpu e memoria in tipi
 4. Porechop
-5. Rallentare per non overwelmare il cluster
 6. Aggiungere FLARE?
-7. Nascondi piu cose come i barcodes?
-8. Sputa fuori i html utili
-9. crea folder per output?
 10. pachettizza
-11. Step 1 aggiungi due - una per tutto e una per demu
