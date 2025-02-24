@@ -23,6 +23,7 @@ git clone LINK
     "cpus": "#",
     "time": "#day ##hours ##minutes ##seconds",
     "memory": "### GB",
+    "demu_mem": "20 GB",
     "minimap_reference_index": "/path/to/genome.fa.mmi",
     "experiment_name": "experiment_name",
     "input_files" : "Common ending of input files: *.fastq.gz"
