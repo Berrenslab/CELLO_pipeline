@@ -81,15 +81,22 @@ cd pwd/work/problematic/dir
 ls -lha
 ```
 This will print output files and hidden files: 
-1. .command.err #
-2. hh
+1. .command.err # stderr of task
+2. .comand.out # stdout of task
+3. .command.log # graphs of resource usage (WIMM cluster)
+4. .command.run # interpreted code , can sbatch it 
+5. .exitcode # exitcode
 
 ### quitting a background nextflow process
 Let's say you ran the pipeline, and you want to stop it:
-* scancel job_ID does not work easily. As you are just cancelling a specific sub-task. 
+* scancel job_ID does not work easily. As you are just cancelling a specific task, so the workflow will run it again. 
 ```
 # identify the job ID
+pgrep -fl nextflow
+# get more information
+ps -fp $ID
 # cancel the background process
+kill $ID
 ```
 
 ### resume a failed process
