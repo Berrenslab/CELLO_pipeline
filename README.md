@@ -33,9 +33,10 @@ git clone LINK
 ### Run nextflow 
 ```
 module load nextflow # or Nextflow
-nextflow -bg run https://github.com/franci-r/CELLO_pipeline.git -params-file parameters.json > step_1.log
+nextflow -bg run https://github.com/franci-r/CELLO_pipeline.git -latest -params-file parameters.json > step_1.log
 ```
 - bg: background, enables run to continue even if you log out from cluster
+- latest ensures version is being used 
 - params-file specifies parameters file
 
 ### Output 
