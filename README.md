@@ -1,4 +1,5 @@
 *In development*
+nextflow run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/step_2.nf -params-file 1_params.json  -latest
 # CELLO_pipeline step 1
 ## Introduction
 Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details.
