@@ -23,7 +23,6 @@ process merging{
     script:    
     """
     # outdir 
-    mkdir ${launchDir}/output/
     # code
     echo 1. Combine and unzip all fastq files > step_1.txt
     echo Total reads before merge: >> step_1.txt
@@ -100,7 +99,7 @@ process dt_qc{
     script:
     """
     singularity exec -B $params.path $params.singularity R --vanilla -e "
-    rmarkdown::render('${baseDir}/bin/internal_adaptor_QC.Rmd', knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD',
+    rmarkdown::render('${baseDir}/../bin/internal_adaptor_QC.Rmd', knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD',
     params = list(input = '${params.experiment_name}_less20kb.fastq', adaptor.type = 'dT'), output_file = '${launchDir}/output/internal_adaptor_QC_dT.html')"
     
     """
@@ -124,7 +123,7 @@ process tso_qc{
     script:
     """
     singularity exec -B $params.path $params.singularity R --vanilla -e "
-    rmarkdown::render('${baseDir}/bin/internal_adaptor_QC.Rmd', knit_root_dir = '\$PWD', intermediates_dir = '\$PWD',
+    rmarkdown::render('${baseDir}/../bin/internal_adaptor_QC.Rmd', knit_root_dir = '\$PWD', intermediates_dir = '\$PWD',
     params = list(input = '${params.experiment_name}_less20kb.fastq', adaptor.type = 'TSO'), output_file = '${launchDir}/output/internal_adaptor_QC_TSO.html')"
     
     """
@@ -150,7 +149,7 @@ process demultiplex{
 
     script: 
     """
-    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/bin/demultiplex_multiparam.Rmd', 
+    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/demultiplex_multiparam.Rmd', 
    knit_root_dir = '\$PWD', intermediates_dir = '\$PWD', params = 
   list(fastq_file = '${params.experiment_name}_less20kb.fastq'), output_file = '${launchDir}/output/${params.experiment_name}_demultiplex.html')"
 
@@ -189,6 +188,11 @@ workflow {
                                                         *Transposomic slay*
   """
     
+    // create output dirs 
+    new File("${launchDir}/output").mkdirs()
+    new File("${launchDir}/intermediates").mkdirs()
+
+    // start pipeline
     fastq_merged = merging(fastq_zip)
 
     contamination_map(fastq_merged[0])
