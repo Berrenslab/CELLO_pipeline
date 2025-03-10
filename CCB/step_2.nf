@@ -125,7 +125,7 @@ process grouping{
     script:
     """
     echo $id
-    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/bin/grouping.Rmd', 
+    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/grouping.Rmd', 
    knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD', params = 
   list(barcode = '$id', fastq_rds = '$fastq_rds' , sam = '$sam', dt_middle_rds = '$dt_rds', tso_middle_rds = '$tso_rds'), output_file = '${launchDir}/output/per_barcode_htmls/grouping_${id}.html')"
     """
@@ -150,7 +150,7 @@ process err_corr{
     script:
     """
     echo $all 
-    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/bin/errorcorrect.Rmd', 
+    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/errorcorrect.Rmd', 
    knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD', params = 
   list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
 
