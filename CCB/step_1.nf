@@ -10,6 +10,10 @@ process merging{
     publishDir "${launchDir}/output/", mode: 'copy'
     debug true 
     clusterOptions '--job-name=pre_processing'
+    queue = { task.attempt == 2 ? 'long' : params.queue_merging }
+    cpus params.cpus_merging
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_merging }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_merging }
     maxRetries 2
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
