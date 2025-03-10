@@ -56,9 +56,12 @@ process contamination_map{
     debug true 
     publishDir "${launchDir}/output/", mode: 'copy'
     clusterOptions '--job-name=contamination_map'
+    queue = { task.attempt == 2 ? 'long' : params.queue_mapping }
+    cpus params.cpus_mapping
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_mapping }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_mapping }
     maxRetries 2
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
-
     input: 
     path "${params.experiment_name}_less20kb.fastq"
 
@@ -90,6 +93,10 @@ process dt_qc{
     debug true 
     publishDir "${launchDir}/intermediates/", mode: 'copy'
     clusterOptions '--job-name=dt_qc'
+    queue = { task.attempt == 2 ? 'long' : params.queue_adaptor_qc }
+    cpus params.cpus_adaptor_qc
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_adaptor_qc }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_adaptor_qc }
     maxRetries 2
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
@@ -114,6 +121,10 @@ process tso_qc{
     debug true 
     publishDir "${launchDir}/intermediates/", mode: 'copy'
     clusterOptions '--job-name=tso_qc'
+    queue = { task.attempt == 2 ? 'long' : params.queue_adaptor_qc }
+    cpus params.cpus_adaptor_qc
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_adaptor_qc }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_adaptor_qc }
     maxRetries 2
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
@@ -137,9 +148,12 @@ process tso_qc{
 
 process demultiplex{
     debug true 
-    memory params.demu_mem
     publishDir "${launchDir}/intermediates/", mode: 'copy'
     clusterOptions '--job-name=demu'
+    queue = { task.attempt == 2 ? 'long' : params.queue_demultiplex }
+    cpus params.cpus_demultiplex
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_demultiplex }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_demultiplex }
     maxRetries 2
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
