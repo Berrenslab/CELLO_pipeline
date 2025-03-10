@@ -12,6 +12,12 @@
     "time_merging": "00:09:30",
     "memory_merging": "20 GB",
 
+    "queue_mapping": "test",
+    "cpus_mapping": "1",
+    "time_mapping": "00:09:30",
+    "memory_mapping": "20 GB",
+
+
     "queue_adaptor_qc": "test",
     "cpus_adaptor_qc": "1",
     "time_adaptor_qc": "00:09:30",
