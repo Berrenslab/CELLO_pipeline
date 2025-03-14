@@ -1,7 +1,5 @@
-*In development*
 # CELLO_pipeline
-Nextflow based CELLO-seq pipeline optimised for SLURM clusters. 
-If steps have same number, they are synchronous. 
+Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details.
 
 ### Dealing with pipeline errors 
 Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are issues, you look for the error codes. If this is not enough, you can identify the problematic processes and cd ```work/problematic/process``` and ```ls -lha``` to see all files: .command.out and .command.err are the most useful. 
