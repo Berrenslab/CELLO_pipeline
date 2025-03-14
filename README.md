@@ -1,48 +1,31 @@
-*In development*
-nextflow run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/step_2.nf -params-file 1_params.json  -latest
-# CELLO_pipeline step 1
+# CELLO_pipeline
 ## Introduction
 Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details.
 
-## Running the pipeline
+## Running step 1 
 ### Set-up 
 1. cd to your directory with your raw CELLO-seq fastq files
-2. Create a parameter file (e.g. 1_parameters.json) to specify how your pipeline should run
-```
-# copy parameter file to your directory
-git clone LINK
-```
+2. Create a parameter file (e.g. 1_parameters.json) to specify how your pipeline should run 
 * note that the cpus / time / memory you ask is per task
 * Note that demultiplexing requires much more memory than the other tasks
-* this is an example 1_parameters.json for a large dataset
+* See CCB/1_params.json for an example for a large dataset. 
 ```
 {
-    "singularity": "/path/to/sarlacc.img", 
-    "path": "/path/to/your/folder",
-
-    "queue": "test/short/long",
-    "cpus": "#",
-    "time": "#day ##hours ##minutes ##seconds",
-    "memory": "### GB",
-    "demu_mem": "20 GB",
-    "minimap_reference_index": "/path/to/genome.fa.mmi",
-    "experiment_name": "experiment_name",
-    "input_files" : "Common ending of input files: *.fastq.gz"
-
+EXAMPLE
 }
 ```
 
 ### Run nextflow 
 ```
 module load nextflow # or Nextflow
-nextflow -bg run https://github.com/franci-r/CELLO_pipeline.git -latest -params-file parameters.json > step_1.log
+nextflow -bg run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/step_1.nf -params-file 1_params.json -latest > step_1.log
 ```
 - bg: background, enables run to continue even if you log out from cluster
 - latest ensures version is being used 
 - params-file specifies parameters file
 
 ### Output 
-Open the run report file (run_report_step_1_YYYY-MM-DD_hh-ss.html)
+Open the run report file (run_report_YYYY-MM-DD_hh-ss.html)
 ```
 tree 
 ```
