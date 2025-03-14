@@ -1,4 +1,28 @@
-# CELLO_pipeline
+                                                                    
+       §                                                         
+     *--= :                                                       
+    -+@.@%@                                                      
+          @+@                                
+            @:+.  :+*=                       
+             .%=@§     §@                    
+            @  § :*@     §                   ┌───────────────────────────────────────────────────────────────┐
+           %     % --@   +@                  │                                                               │
+           §      ==  @@  *                  │               ▀▀█    ▀▀█                                      │
+           §@       =   .@@ @   §            │  ▄▄▄    ▄▄▄     █      █     ▄▄▄           ▄▄▄    ▄▄▄    ▄▄▄▄ │
+            @ @@:-   @ @  @ @§@. @@          │ █▀  ▀  █▀  █    █      █    █▀ ▀█         █   ▀  █▀  █  █▀ ▀█ │
+              .   .@:= = :          @*       │ █      █▀▀▀▀    █      █    █   █   ▀▀▀    ▀▀▀▄  █▀▀▀▀  █   █ │
+                   =@ @   +@ -        @      │ ▀█▄▄▀  ▀█▄▄▀    ▀▄▄    ▀▄▄  ▀█▄█▀         ▀▄▄▄▀  ▀█▄▄▀  ▀█▄██ │
+                    @-§    %  -       .      │                                                             █ │
+                  .*@        .+ :     @      │                                                             ▀ │
+                    *          % @   @+      └───────────────────────────────────────────────────────────────┘ 
+                     @          *  @@:       
+                     *:@        %@ .         
+                       - @@@@@+  §           
+                                             
+    
+
+
+
 Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details.
 
 ### Dealing with pipeline errors 
