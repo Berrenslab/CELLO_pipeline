@@ -210,12 +210,11 @@ nextflow -bg run https://github.com/franci-r/CELLO_pipeline.git -params-file par
 
 
 ### Da fare 
-1. Strategia d'errore - limitata
-4. Porechop
-5. Rallentare per non overwelmare il cluster
-6. Aggiungere FLARE?
-7. Nascondi piu cose come i barcodes?
-8. Sputa fuori i html utili
-9. crea folder per output?
-10. pachettizza
-11. Step 1 aggiungi due - una per tutto e una per demu
+1. Strategia d'errore - rimuovi aumento?
+2. Rallentare per non overwelmare il cluster ?
+3. Aggiungi scelta per demu e mapping
+4. Demu separa?  
+
+### Da aggiungere
+1. Porechop
+2. Flaire
