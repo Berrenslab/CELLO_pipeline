@@ -80,6 +80,7 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 module load nextflow # or Nextflow
 nextflow -bg run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/step_1.nf -params-file 1_params.json -latest > step_1.log
 ```
+* If on on biochem cluster, you may need to specify repository: -r main
 - bg: background, enables run to continue even if you log out from cluster
 - latest ensures tnat the latest code is used from GitHub
 - stdout is saved into step_1.log
