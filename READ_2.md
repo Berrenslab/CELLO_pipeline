@@ -90,6 +90,14 @@ nextflow -bg run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/s
 rm -rf work/
 ```
 
+### Ouput 
+
+1. Open the run report file (run_report_YYYY-MM-DD_hh-ss.html)
+2. stdout is saved into step_1.log (file name may change)
+3. intermediate: directory with intermediate files
+   * needed files for step_2
+4. output: directory with qc files and run report.
+
 ### Description
 Input: reads (*fastq.gz)
 1. Concatenates them into one file
