@@ -78,7 +78,7 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 2. Run nextflow
 ```
 module load nextflow # or Nextflow
-nextflow -bg run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/step_1.nf -params-file 1_params.json -latest > step_1.log
+nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_1.nf -params-file 1_params.json -latest > step_1.log
 ```
 * If on on biochem cluster, you may need to specify repository: -r main
 - bg: background, enables run to continue even if you log out from cluster
@@ -158,7 +158,7 @@ Output: barcode_\*.fastq and barcode_\*.fastq.rds
 2. Run nextflow (see above for description)
 ```
 module load nextflow # or Nextflow
-nextflow -bg run https://github.com/franci-r/CELLO_pipeline  -main-script /CCB/step_2.nf -params-file 2_step_params.json -latest > step_2.log
+nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_2.nf -params-file 2_step_params.json -latest > step_2.log
 ```
 3. Remove work/ only when you are done
 4. Continue to FLAIR pipeline
