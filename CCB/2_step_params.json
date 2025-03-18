@@ -1,0 +1,43 @@
+{
+    "singularity": "/project/CELLOseq/shared/images/sarlacc.img",
+    "path": "/ceph/project/CELLOseq",
+
+    "queue": "test",
+    "time": "00:09:30",
+    "memory": "20 GB",
+
+    "dt_queue": "",
+    "dt_cpus": "",
+    "dt_time": "",
+    "dt_mem": "",
+
+    "tso_queue": "",
+    "tso_cpus": "",
+    "tso_time": "",
+    "tso_mem": "",
+
+    "align_queue": "", 
+    "align_cpus": "",
+    "align_time": "",
+    "align_mem": "",
+
+    "grouping_queue": "",
+    "grouping_cpus": "",
+    "grouping_time": "",
+    "grouping_mem": "",
+
+    "err_queue": "",
+    "err_cpus": "",
+    "err_time": "",
+    "err_mem": "",
+
+    "merge_queue": "",
+    "merge_cpus": "",
+    "merge_time": "",
+    "merge_mem": "",
+
+    "minimap_reference_index": "/ceph/project/CELLOseq/lmcleand/reference_genomes/Mus_musculus.GRCm39.dna.primary_assembly.fa.mmi",
+    "experiment_name": "all_plate",
+    "input_files" : "*.fastq.gz"
+
+}
