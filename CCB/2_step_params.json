@@ -1,6 +1,7 @@
 {
     "singularity": "/project/CELLOseq/shared/images/sarlacc.img",
     "path": "/ceph/project/CELLOseq",
+    "queuesize": "2",
 
     "queue": "test",
     "time": "00:09:30",
