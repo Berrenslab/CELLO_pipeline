@@ -146,6 +146,29 @@ process tso_qc{
 
 }
 
+process splitter{
+    debug true 
+    clusterOptions '--job-name=splitter'
+    queue = { task.attempt == 2 ? 'long' : params.queue_merging }
+    cpus params.cpus_merging
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_merging }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_merging }
+    maxRetries 2
+    errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
+
+    input: 
+    path "${params.experiment_name}_less20kb.fastq"
+
+    output: 
+
+    script:    
+    """
+    modue load seqkit 
+
+    seqkit split -2 ${params.experiment_name}_less20kb.fastq -O .
+    """
+}
+
 process demultiplex{
     debug true 
     publishDir "${launchDir}/intermediates/", mode: 'copy'
@@ -216,5 +239,15 @@ workflow {
     contamination_map(fastq_merged[0])
     dt_qc(fastq_merged[0])
     tso_qc(fastq_merged[0])
-    demultiplex(fastq_merged[0])
+
+
+// add fuser after
+// need to make another demu
+    if ($params.split == 'yes') {
+        demultiplex(splitter(fastq_merged[0]))
+    } else if (params.split == 'no') 
+        demultiplex(fastq_merged[0])
+    }
+
+    
 }
