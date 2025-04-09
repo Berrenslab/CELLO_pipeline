@@ -132,7 +132,7 @@ process grouping{
 }
 
 process err_corr{
-    clusterOptions '--job-name=grouping'
+    clusterOptions '--job-name=err_corr'
     queue = { task.attempt == 2 ? 'long' : params.err_queue }
     cpus params.err_cpus
     time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.err_time }
