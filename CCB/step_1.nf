@@ -160,12 +160,14 @@ process splitter{
     path "${params.experiment_name}_less20kb.fastq"
 
     output: 
+    path "${params.experiment_name}_less20kb.part_00?.fastq"
 
     script:    
     """
     modue load seqkit 
 
-    seqkit split -2 ${params.experiment_name}_less20kb.fastq -O .
+    seqkit split -p 2 ${params.experiment_name}_less20kb.fastq -O .
+
     """
 }
 
@@ -243,7 +245,7 @@ workflow {
 
 // add fuser after
 // need to make another demu
-    if ($params.split == 'yes') {
+    if (params.split == 'yes') {
         demultiplex(splitter(fastq_merged[0]))
     } else if (params.split == 'no') 
         demultiplex(fastq_merged[0])
