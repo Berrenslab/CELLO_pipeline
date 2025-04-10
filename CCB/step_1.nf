@@ -164,7 +164,7 @@ process splitter{
 
     script:    
     """
-    modue load seqkit 
+    module load seqkit 
 
     seqkit split -p 2 ${params.experiment_name}_less20kb.fastq -O .
 
