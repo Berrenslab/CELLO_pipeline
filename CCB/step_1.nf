@@ -247,7 +247,7 @@ workflow {
 // need to make another demu
     if (params.split == 'yes') {
         demultiplex(splitter(fastq_merged[0]))
-    } else if (params.split == 'no') 
+    } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
     }
 
