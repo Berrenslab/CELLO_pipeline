@@ -220,14 +220,15 @@ process demu_postsplit{
 
     script: 
     """
-    echo $fastq
+    part=\$(basename "$fastq" .fastq)
+    echo \$part
 
     singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/demultiplex_multiparam.Rmd', 
    knit_root_dir = '\$PWD', intermediates_dir = '\$PWD', params = 
   list(fastq_file = '$fastq'), output_file = '${launchDir}/output/${fastq}_demultiplex.html')"
 
-    mv barcode_*.fastq 1_barcode_*.fastq
-    mv barcode_*.fastq.rds 1_barcode_*.fastq.rds
+    ls *fastq | xargs -I {} mv {} \$part_{}
+    ls *fastq.rds | xargs -I {} mv {} \$part_{}
 
     """
 
