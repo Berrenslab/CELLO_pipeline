@@ -279,7 +279,7 @@ workflow {
 // add fuser after
 // need to make another demu
     if (params.split == 'yes') {
-        demu_postsplit(splitter(fastq_merged[0]))
+        demu_postsplit(splitter(fastq_merged[0]).flatten())
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
     }
