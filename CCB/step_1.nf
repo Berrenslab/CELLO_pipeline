@@ -211,11 +211,11 @@ process demu_postsplit{
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
     input: 
-    file fastq 
+    path fastq 
 
     output:
-    path "?_barcode_*.fastq"
-    path "?_barcode_*.fastq.rds"
+    path "*_barcode_*.fastq"
+    path "*_barcode_*.fastq.rds"
 
 
     script: 
@@ -227,8 +227,8 @@ process demu_postsplit{
    knit_root_dir = '\$PWD', intermediates_dir = '\$PWD', params = 
   list(fastq_file = '$fastq'), output_file = '${launchDir}/output/${fastq}_demultiplex.html')"
 
-    ls *fastq | xargs -I {} mv {} \$part_{}
-    ls *fastq.rds | xargs -I {} mv {} \$part_{}
+    for f in *.fastq; do mv "\$f" "\${part}_\$f"; done
+    for f in *.fastq.rds; do mv "\$f" "\${part}_\$f"; done
 
     """
 
