@@ -200,6 +200,39 @@ process demultiplex{
 
 }
 
+process demu_postsplit{
+    debug true 
+    clusterOptions '--job-name=demu'
+    queue = { task.attempt == 2 ? 'long' : params.queue_demultiplex }
+    cpus params.cpus_demultiplex
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_demultiplex }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_demultiplex }
+    maxRetries 2
+    errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
+
+    input: 
+    file fastq 
+
+    output:
+    path "?_barcode_*.fastq"
+    path "?_barcode_*.fastq.rds"
+
+
+    script: 
+    """
+    echo $fastq
+
+    singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/demultiplex_multiparam.Rmd', 
+   knit_root_dir = '\$PWD', intermediates_dir = '\$PWD', params = 
+  list(fastq_file = '$fastq'), output_file = '${launchDir}/output/${fastq}_demultiplex.html')"
+
+    mv barcode_*.fastq 1_barcode_*.fastq
+    mv barcode_*.fastq.rds 1_barcode_*.fastq.rds
+
+    """
+
+}
+
 // Define the workflow
 workflow {
     log.info """    
@@ -246,7 +279,7 @@ workflow {
 // add fuser after
 // need to make another demu
     if (params.split == 'yes') {
-        demultiplex(splitter(fastq_merged[0]))
+        demu_postsplit(splitter(fastq_merged[0]))
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
     }
