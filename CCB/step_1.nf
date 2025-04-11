@@ -311,7 +311,7 @@ workflow {
         | demu_postsplit
         | set { demu_split_out }
     
-    de_splitter(demu_split_out.collect())
+    de_splitter(demu_split_out)
 
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
