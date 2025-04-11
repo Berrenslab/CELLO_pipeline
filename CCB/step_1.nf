@@ -311,9 +311,11 @@ workflow {
         | demu_postsplit
         | set { demu_split_out }
 
-    demu_all = demu_split_out.collect()    
-    
-    de_splitter(demu_all)
+    demu_split_out
+        .collect()
+        | set { demu_split_joint }
+
+    de_splitter(demu_split_joint)
 
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
