@@ -244,6 +244,7 @@ process de_splitter{
 
     input: 
     tuple path(fastq), path(rds) 
+    tuple path(fastq), path(rds) 
 
 //    output: 
 
