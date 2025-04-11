@@ -311,6 +311,7 @@ workflow {
 
     demu_split_out
         .collect()
+        .collect()
         | set { demu_split_joint }
 
     de_splitter(demu_split_joint)
