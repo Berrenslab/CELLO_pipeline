@@ -252,7 +252,7 @@ process de_splitter{
     script:    
     """
     for barcode in {1..96}; do
-    cat ${params.experiment_name}_less20kb.part_00?_barcode_\${barcode}.fastq > barcode_\${barcode}.fastq
+    cat ${params.experiment_name}_less20kb.part_00?_barcode_\${barcode}.fastq > barcode_\${barcode}.fastq || echo \$barcode
     done
 
     """
