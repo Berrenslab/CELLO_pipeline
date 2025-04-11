@@ -214,8 +214,7 @@ process demu_postsplit{
     path fastq 
 
     output:
-    path "*_barcode_*.fastq"
-//    path "*_barcode_*.fastq.rds"
+    tuple path("*_barcode_*.fastq"), path("*_barcode_*.fastq.rds")
 
 
     script: 
