@@ -214,8 +214,9 @@ process demu_postsplit{
     path fastq 
 
     output:
-    tuple path("*_barcode_*.fastq"), path("*_barcode_*.fastq.rds")
-
+//    tuple path("*_barcode_*.fastq"), path("*_barcode_*.fastq.rds")
+    path("*_barcode_*.fastq")
+    path("*_barcode_*.fastq.rds")
 
     script: 
     """
@@ -295,9 +296,9 @@ workflow {
     // start pipeline
     fastq_merged = merging(fastq_zip)
 
-    contamination_map(fastq_merged[0])
-    dt_qc(fastq_merged[0])
-    tso_qc(fastq_merged[0])
+   // contamination_map(fastq_merged[0])
+   // dt_qc(fastq_merged[0])
+   // tso_qc(fastq_merged[0])
 
 
 // add fuser after
@@ -311,10 +312,11 @@ workflow {
 
     demu_split_out
         .collect()
-        .collect()
         | set { demu_split_joint }
 
-    de_splitter(demu_split_joint)
+    demu_split_joint.view()
+
+ //   de_splitter(demu_split_joint)
 
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
