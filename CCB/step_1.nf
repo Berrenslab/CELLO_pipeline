@@ -244,7 +244,6 @@ process de_splitter{
 
     input: 
     tuple path(fastq), path(rds) 
-    tuple path(fastq), path(rds) 
 
 //    output: 
 
@@ -310,6 +309,7 @@ workflow {
         | set { demu_split_out }
 
       demu_split_out
+        .flatten()
         .collect()
         | set { demu_split_joint }
 
