@@ -312,8 +312,9 @@ workflow {
     demu_split_out
         .collect()
         | set { demu_split_joint }
+        | view()
 
-    de_splitter(demu_split_joint)
+//    de_splitter(demu_split_joint)
 
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
