@@ -310,9 +310,8 @@ workflow {
         | demu_postsplit
         | set { demu_split_out }
 
-    demu_split_out
+    demu_split_out.view()
  //       .collect()
-        .view()
 //        | set { demu_split_joint }
 
 //    demu_split_joint.view()
