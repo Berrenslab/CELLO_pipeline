@@ -244,8 +244,7 @@ process de_splitter{
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
     input: 
-    path fastq
-//    path rds 
+    tuple fastq, rds 
 
 //    output: 
 
