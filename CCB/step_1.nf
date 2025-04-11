@@ -246,7 +246,7 @@ process de_splitter{
 
     input: 
     path fastq
-    path rds 
+//    path rds 
 
 //    output: 
 
