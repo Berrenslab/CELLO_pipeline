@@ -253,6 +253,11 @@ process de_splitter{
     cat ${params.experiment_name}_less20kb.part_00?_barcode_\${barcode}.fastq > barcode_\${barcode}.fastq || echo \$barcode
     done
 
+    singularity exec -B $params.path $params.singularity R --vanilla -e "
+    rmarkdown::render('${baseDir}/../bin/rds_fuser.Rmd', knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD',
+    output_file = '${launchDir}/output/rds_fuser.html')"
+    
+
     """
 }
 
