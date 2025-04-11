@@ -306,8 +306,8 @@ workflow {
 // need to make another demu
     if (params.split == 'yes') {
         demu_postsplit(splitter(fastq_merged[0]).flatten())
-        .collect()
-        .set{demu_split_out}
+        | collect()
+        | set{demu_split_out}
         de_splitter(demu_split_out)
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
