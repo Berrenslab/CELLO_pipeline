@@ -234,6 +234,31 @@ process demu_postsplit{
 
 }
 
+process de_splitter{
+    debug true 
+    clusterOptions '--job-name=de_split'
+    queue = { task.attempt == 2 ? 'long' : params.queue_merging }
+    cpus params.cpus_merging
+    time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.time_merging }
+    memory = { task.attempt == 2 ? '500 GB' : params.memory_merging }
+    maxRetries 2
+    errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
+
+    input: 
+    path fastq
+    path rds 
+
+//    output: 
+
+    script:    
+    """
+    for barcode in {1..96}; do
+    cat ${params.experiment_name}_less20kb.part_00?_barcode_\${barcode}.fastq > barcode_\${barcode}.fastq
+    done
+
+    """
+}
+
 // Define the workflow
 workflow {
     log.info """    
@@ -280,7 +305,7 @@ workflow {
 // add fuser after
 // need to make another demu
     if (params.split == 'yes') {
-        demu_postsplit(splitter(fastq_merged[0]).flatten())
+        de_splitter(demu_postsplit(splitter(fastq_merged[0]).flatten()).collect())
     } else if (params.split == 'no') {
         demultiplex(fastq_merged[0])
     }
