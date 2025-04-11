@@ -306,12 +306,10 @@ workflow {
     splitter(fastq_merged[0])
         .flatten()
         | demu_postsplit
-        | view()       
         | collect()
-        | view()
         | set { demu_split_out }
 
-  //  demu_split_out.view()
+      demu_split_out.view()
  //       .collect()
 //        | set { demu_split_joint }
 
