@@ -243,7 +243,7 @@ process de_splitter{
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
     input: 
-    tuple path(fastq), path(rds) 
+    path(all_files)
 
 //    output: 
 
