@@ -312,7 +312,8 @@ workflow {
     demu_split_out
         .collect()
         | set { demu_split_joint }
-        | view()
+
+    demu_split_joint.view()
 
 //    de_splitter(demu_split_joint)
 
