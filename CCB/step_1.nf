@@ -202,6 +202,7 @@ process demultiplex{
 
 process demu_postsplit{
     debug true 
+    publishDir "${launchDir}/intermediates/", mode: 'copy'
     clusterOptions '--job-name=demu'
     queue = { task.attempt == 2 ? 'long' : params.queue_demultiplex }
     cpus params.cpus_demultiplex
@@ -234,6 +235,7 @@ process demu_postsplit{
 
 process de_splitter{
     debug true 
+    publishDir "${launchDir}/intermediates/", mode: 'copy'
     clusterOptions '--job-name=de_split'
     queue = { task.attempt == 2 ? 'long' : params.queue_merging }
     cpus params.cpus_merging
@@ -245,7 +247,9 @@ process de_splitter{
     input: 
     path(all_files)
 
-//    output: 
+    output: 
+    path("barcode_*.fastq")
+    path("barcode_*.fastq.rds")
 
     script:    
     """
