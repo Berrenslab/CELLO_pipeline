@@ -21,7 +21,7 @@ library(sarlacc)
 
 ```{r fuser}
 # get files
-files <- list.files(pattern = paste0(project_title, "_less20kb.part_00[0-9]_barcode_.*\\.fastq\\.rds$"))
+files <- list.files(pattern = paste0(params$project_title, "_less20kb.part_00[0-9]_barcode_.*\\.fastq\\.rds$"))
 # get barcodes 
 barcodes <- sub(".*_barcode_([0-9].+)fastq\\.rds$", "\\1", files)
 # loop and fuse 
