@@ -202,7 +202,6 @@ process demultiplex{
 
 process demu_postsplit{
     debug true 
-    publishDir "${launchDir}/intermediates/", mode: 'copy'
     clusterOptions '--job-name=demu'
     queue = { task.attempt == 2 ? 'long' : params.queue_demultiplex }
     cpus params.cpus_demultiplex
