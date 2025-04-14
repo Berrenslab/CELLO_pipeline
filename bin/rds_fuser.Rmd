@@ -1,0 +1,42 @@
+---
+title: CELLO-Seq Sarlacc pipeline - rds fuser 
+author: Francesco Rivetti 
+output: 
+  BiocStyle::html_document:
+    toc_float: true
+    titlecaps: false
+params:
+  project_title: ''
+---
+
+```{r, echo=FALSE, results="hide", message=FALSE}
+require(knitr)
+opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+```
+
+```{r setup, echo=FALSE, message=FALSE}
+library(sarlacc)
+```
+
+
+```{r fuser}
+# get files
+files <- list.files(pattern = paste0(project_title, "_less20kb.part_00[0-9]_barcode_.*\\.fastq\\.rds$"))
+# get barcodes 
+barcodes <- sub(".*_barcode_([0-9].+)fastq\\.rds$", "\\1", files)
+# loop and fuse 
+for (barcode in unique(barcodes)) {
+  # get files to fuse 
+    matching_files <- files[barcodes == barcode]
+  # fuse 
+    merged_data <- do.call(rbind, lapply(matching_files, readRDS))
+  # fuse 
+    saveRDS(merged_data, file = paste0("barcode_", barcode, "fastq.rds"))
+}
+```
+
+# Session information
+
+```{r}
+sessionInfo()
+```
