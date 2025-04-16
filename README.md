@@ -60,8 +60,8 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 
     "queue_demultiplex": "long",
     "cpus_demultiplex": "5",
-    "time_demultiplex": "4day 0hours 0minutes 30seconds",
-    "memory_demultiplex": "1300 GB",
+    "time_demultiplex": "7day 0hours 0minutes 30seconds",
+    "memory_demultiplex": "1400 GB",
   
     "minimap_reference_index": "/ceph/project/CELLOseq/lmcleand/reference_genomes/Mus_musculus.GRCm39.dna.primary_assembly.fa.mmi",
     "experiment_name": "all_plate",
