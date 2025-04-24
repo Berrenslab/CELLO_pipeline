@@ -213,8 +213,6 @@ workflow {
     // start pipeline
     fastq_merged = merging(fastq_zip)
 
-    contamination_map(fastq_merged[0])
     dt_qc(fastq_merged[0])
     tso_qc(fastq_merged[0])
-    demultiplex(fastq_merged[0])
 }
