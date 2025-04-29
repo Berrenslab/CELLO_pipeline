@@ -112,7 +112,7 @@ process grouping{
     queue = { task.attempt == 2 ? 'long' : params.grouping_queue }
     cpus params.grouping_cpus
     time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.grouping_time }
-    memory = { task.attempt == 2 ? '500 GB' : params.grouping_mem }
+    memory = { task.attempt == 2 ? '100 GB' : params.grouping_mem }
     maxRetries 2
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
