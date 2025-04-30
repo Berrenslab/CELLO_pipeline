@@ -28,8 +28,6 @@ barcode_rds = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq.rds")
 barcode_rds_err = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq.rds")
     .map {rds -> tuple(rds.baseName.tokenize('.')[0], rds)}
 
-all_fastq = Channel.fromPath("${launchDir}/output/${params.experiment_name}_less20kb.fastq")
-
 process dT_adaptor_filter {
     clusterOptions '--job-name=dt_internal_filter'
     queue = { task.attempt == 2 ? 'long' : params.dt_queue }
@@ -221,9 +219,6 @@ workflow {
     // create output dir for per barcode htmls
     new File("${launchDir}/output/per_barcode_htmls").mkdirs()
 
-    // test
-    fastq_demu.view()
-
     // adaptor filter and mapping at once 
 
     id_dt_tso_sam_fastqrds = dT_adaptor_filter(fastqs, dt_threshold_rds.first()) 
@@ -234,11 +229,12 @@ workflow {
     grouping(id_dt_tso_sam_fastqrds).flatten()
     .map {group -> tuple(group.baseName.tokenize('.')[0], group)}
     .combine(barcode_rds_err, by: 0 )
-    .combine(all_fastq.first())
+    .combine(fastq_demu, by:0)
     .set {grouping_out}
 
+    grouping_out.view()
 
-    corrected_merge(err_corr(grouping_out).collect())
+  //  corrected_merge(err_corr(grouping_out).collect())
 
 
 }
