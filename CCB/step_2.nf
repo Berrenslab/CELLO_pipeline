@@ -222,7 +222,7 @@ workflow {
     new File("${launchDir}/output/per_barcode_htmls").mkdirs()
 
     // test
-    println(fastq_demu)
+    fastq_demu.view()
 
     // adaptor filter and mapping at once 
 
