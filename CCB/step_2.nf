@@ -5,6 +5,11 @@
 fastqs = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq")
     .filter(file -> file.size() > 50000) // filter for fastq files larger than 50KB
 
+// fastqs for demu 
+fastq_demu = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq")
+    .map {fastq -> tuple(fastq.baseName, fastq)}
+
+
 // internal adaptor filter 
 //adaptor_filter_script = Channel.fromPath("bin/internal_adaptor_filter_dT100k.Rmd")
 dt_threshold_rds = Channel.fromPath("${launchDir}/intermediates/adaptor_dT_threshold.rds")
@@ -149,7 +154,6 @@ process err_corr{
 
     script:
     """
-    echo $all 
     singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/errorcorrect.Rmd', 
    knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD', params = 
   list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
@@ -216,6 +220,9 @@ workflow {
   """
     // create output dir for per barcode htmls
     new File("${launchDir}/output/per_barcode_htmls").mkdirs()
+
+    // test
+    println(fastq_demu)
 
     // adaptor filter and mapping at once 
 
