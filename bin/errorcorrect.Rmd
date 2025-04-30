@@ -9,6 +9,7 @@ params:
   barcode: ''
   group_rds: ''
   fastq_rds: ''
+  fastq_fastq: ''
 ---
 
 ```{r, echo=FALSE, results="hide", message=FALSE}
@@ -47,9 +48,14 @@ This is done to reduce the memory footprint of the errorcorrection step.
 
 ```{r}
 my.sample_fastq <- compact(my.sample_fastq[unlist(groups),])
+
+# new method only open singular file 
+read.seq  <- readQualityScaledDNAStringSet(params$fastq_fastq,quality.scoring=c("phred"))
+read.seq<- read.seq[unlist(groups),]
+
 groups <- lapply(groups, function(x) match(x, unlist(groups)))
 
-(read.seq <- compact(realizeReads(my.sample_fastq)))
+#(read.seq <- compact(realizeReads(my.sample_fastq)))
 ```
 
 # Errorcorrecting reads
