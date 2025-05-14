@@ -85,6 +85,10 @@ We then perform the alignment of adaptor against the reads:
 
 
 ```{r}
+# this only looks at 100 000 reads
+set.seed(100)
+N <- sample(length(reads), min(length(reads), 100000))
+reads <- reads[N]
 (aln.f.reads <- alnFun(reads, adap))
 ```
 
