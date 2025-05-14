@@ -5,6 +5,11 @@
 fastqs = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq")
     .filter(file -> file.size() > 50000) // filter for fastq files larger than 50KB
 
+// fastqs for demu 
+fastq_demu = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq")
+    .map {fastq -> tuple(fastq.baseName, fastq)}
+
+
 // internal adaptor filter 
 //adaptor_filter_script = Channel.fromPath("bin/internal_adaptor_filter_dT100k.Rmd")
 dt_threshold_rds = Channel.fromPath("${launchDir}/intermediates/adaptor_dT_threshold.rds")
@@ -22,8 +27,6 @@ barcode_rds = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq.rds")
 //errcorr_script = Channel.fromPath("${baseDir}/../bin/errorcorrect.Rmd")
 barcode_rds_err = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq.rds")
     .map {rds -> tuple(rds.baseName.tokenize('.')[0], rds)}
-
-all_fastq = Channel.fromPath("${launchDir}/output/${params.experiment_name}_less20kb.fastq")
 
 process dT_adaptor_filter {
     clusterOptions '--job-name=dt_internal_filter'
@@ -141,18 +144,16 @@ process err_corr{
     errorStrategy { task.attempt <= 2 ? 'retry' : 'finish' }
 
     input: 
-    tuple val(id), path(group_rds), path(fastq_rds), path(all)
+    tuple val(id), path(group_rds), path(fastq_rds), path(fastq_fastq)
 
     output:
     path "barcode_*_*_corrected_all.fastq"
-//  
 
     script:
     """
-    echo $all 
     singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/errorcorrect.Rmd', 
    knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD', params = 
-  list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
+  list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds', fastq_fastq='$fastq_fastq'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
 
     """
 
@@ -227,9 +228,8 @@ workflow {
     grouping(id_dt_tso_sam_fastqrds).flatten()
     .map {group -> tuple(group.baseName.tokenize('.')[0], group)}
     .combine(barcode_rds_err, by: 0 )
-    .combine(all_fastq.first())
+    .combine(fastq_demu, by:0)
     .set {grouping_out}
-
 
     corrected_merge(err_corr(grouping_out).collect())
 
