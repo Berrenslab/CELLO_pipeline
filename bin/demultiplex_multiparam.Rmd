@@ -55,7 +55,7 @@ By default, the alignment will only consider the 250 bp on either end of the rea
 This can be further sped up by parallelising jobs using the `BiocParallel` package with the appropriate backend supplied to the optional `BPPARAM=` argument.
 
 ```{r}
-aln.out <- adaptorAlign(adaptor1, adaptor2, filepath=params$fastq_file, gapOpening=8, gapExtension=3, BPPARAM=multicoreParam)
+aln.out <- adaptorAlign(adaptor1, adaptor2, filepath=params$fastq_file, gapOpening=5, gapExtension=1, BPPARAM=multicoreParam)
 colnames(aln.out)
 ```
 
@@ -125,7 +125,7 @@ We assign reads back to the sample of origin by aligning the barcode in the adap
 As with `adaptorAlign`, this can be further sped up by parallelising jobs using the `BiocParallel` package with the appropriate backend supplied to the optional `BPPARAM=` argument.
 
 ```{r}
-debarcoded <- barcodeAlign(filtered$adaptor1$subseq$Sub1, all.barcodes, gapOpening=8, gapExtension=3, BPPARAM=multicoreParam)
+debarcoded <- barcodeAlign(filtered$adaptor1$subseq$Sub1, all.barcodes, gapOpening=5, gapExtension=1, BPPARAM=multicoreParam)
 debarcoded
 ```
 
