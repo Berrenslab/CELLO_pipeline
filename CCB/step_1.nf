@@ -77,7 +77,9 @@ process contamination_map{
     module load minimap2/2.17 2>/dev/null || module load minimap2/2.17-GCC-8.3.0 2>/dev/null
     module load samtools 2>/dev/null || module load SAMtools 2>/dev/null
 
-    minimap2 -ax map-ont "$params.minimap_reference_index" ${params.experiment_name}_less20kb.fastq > ${params.experiment_name}.sam
+    head -100000 ${params.experiment_name}_less20kb.fastq > subset_to_map.fastq
+
+    minimap2 -ax map-ont "$params.minimap_reference_index" subset_to_map.fastq > ${params.experiment_name}.sam
 
     mapped_n=\$(samtools view -c -F 4 ${params.experiment_name}.sam)
     total_n=\$(samtools view -c ${params.experiment_name}.sam)
