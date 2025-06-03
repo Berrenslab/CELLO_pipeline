@@ -231,7 +231,7 @@ workflow {
     .combine(fastq_demu, by:0)
     .set {grouping_out}
 
-//    corrected_merge(err_corr(grouping_out).collect())
+    corrected_merge(err_corr(grouping_out).collect())
 
 
 }
