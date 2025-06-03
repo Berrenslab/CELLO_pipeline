@@ -76,7 +76,7 @@ We then set up a wrapper function to obtain alignments and extract the necessary
 ```{r, echo=FALSE}
 library(S4Vectors)
 alnFun <- function(reads, y) {
-    aln <- pairwiseAlignment(reads, subject=y, type="local-global", gapOpening=5, gapExtension=1)
+    aln <- pairwiseAlignment(reads, subject=y, type="local-global", gapOpening=4, gapExtension=1)
     DataFrame(start=start(pattern(aln)), end=end(pattern(aln)), score=score(aln))
 }
 ```
