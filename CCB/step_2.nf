@@ -29,7 +29,7 @@ barcode_rds_err = Channel.fromPath("${launchDir}/intermediates/barcode_*.fastq.r
     .map {rds -> tuple(rds.baseName.tokenize('.')[0], rds)}
 
 process dT_adaptor_filter {
-    clusterOptions '--job-name=dt_internal_filter'
+    clusterOptions '--job-name=dt_internal_filter --nodelist=gen04'
     queue = { task.attempt == 2 ? 'long' : params.dt_queue }
     cpus params.dt_cpus
     time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.dt_time }
