@@ -57,7 +57,7 @@ process dT_adaptor_filter {
 }
 
 process TSO_adaptor_filter {
-    clusterOptions '--job-name=tso_internal_filter'
+    clusterOptions '--job-name=tso_internal_filter  --nodelist=gen04'
     queue = { task.attempt == 2 ? 'long' : params.tso_queue }
     cpus params.tso_cpus
     time = { task.attempt == 2 ? '6day 23hours 59minutes 30seconds' : params.tso_time }
