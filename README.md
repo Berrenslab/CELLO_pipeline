@@ -36,6 +36,7 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 {
     "singularity": "/project/CELLOseq/shared/images/sarlacc.img",
     "path": "/ceph/project/CELLOseq",
+    "node_list": "gen04"
 
     "queue": "test",
     "cpus": "1",
