@@ -151,7 +151,7 @@ abline(v=barcode.thresh["gap"], col="red", lty=2)
 We then filter the reads to only retain those that were unambiguously assigned to a barcode:
 
 ```{r}
-was.assigned <- debarcoded$score > 30 & debarcoded$gap > barcode.thresh["gap"]
+was.assigned <- debarcoded$score > score & debarcoded$gap > barcode.thresh["gap"]
 table(debarcoded$barcode, was.assigned)
 
 # plot TRUE
