@@ -21,7 +21,8 @@
                                              
 ```    
 
-Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details.
+Nextflow based CELLO-seq pipeline optimised for SLURM clusters. This specific code take raw fastq reads from ONT sequencing runs and outputs qc and and demultiplexed files. Note that if steps have same number, they are synchronous. Please see XXX for mroe details. 
+* This has been optimised for the genoa cluster. 
 
 ### Dealing with pipeline errors 
 Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are issues, you look for the error codes. If this is not enough, you can identify the problematic processes and cd ```work/problematic/process``` and ```ls -lha``` to see all files: .command.out and .command.err are the most useful. 
@@ -32,54 +33,57 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 2. Edit step_1_parameters.json : see below an example for a large dataset. 
 * The parameters file specifies the resources to be used by each process 
 * note that the cpus / time / memory you ask is per task
+* The values below have been optimised for a promethION on the Genoa cluster
 ```
 {
-    "singularity": "/project/CELLOseq/shared/images/sarlacc.img",
-    "path": "/ceph/project/CELLOseq",
+    "singularity": "/home/bioc1647/images/sarlacc.img",
+    "path": "YOUR/HOME/DIR",
+    "queue_size":  "0",
 
-    "queue": "test",
+    "queue": "cpu-gen",
     "cpus": "1",
-    "time": "00:09:30",
+    "time": "00:30:30",
     "memory": "20 GB",
 
-    "queue_merging": "short",
+    "queue_merging": "cpu-gen",
     "cpus_merging": "1",
     "time_merging": "23:59:30",
     "memory_merging": "20 GB",
 
-    "queue_mapping": "short",
-    "cpus_mapping": "5",
+    "queue_mapping": "cpu-gen",
+    "cpus_mapping": "1",
     "time_mapping": "23:59:30",
     "memory_mapping": "50 GB",
 
 
-    "queue_adaptor_qc": "short",
+    "queue_adaptor_qc": "cpu-gen",
     "cpus_adaptor_qc": "1",
-    "time_adaptor_qc": "23:59:59",
+    "time_adaptor_qc": "23:59:30",
     "memory_adaptor_qc": "300 GB",
 
-    "queue_demultiplex": "long",
-    "cpus_demultiplex": "5",
-    "time_demultiplex": "7day 0hours 0minutes 30seconds",
-    "memory_demultiplex": "1400 GB",
-  
-    "minimap_reference_index": "/ceph/project/CELLOseq/lmcleand/reference_genomes/Mus_musculus.GRCm39.dna.primary_assembly.fa.mmi",
-    "experiment_name": "all_plate",
-    "input_files" : "*.fastq.gz"
+    "queue_demultiplex": "himem-gen24",
+    "cpus_demultiplex": "24",
+    "time_demultiplex": "6d 23h 59m",
+    "memory_demultiplex": "1200 GB",
+
+    "minimap_reference_index": "YOUR/GENOME/.mmi",
+    "experiment_name": "YOUR/EXPERIMENT/NAME",
+    "input_files" : "*.fastq.gz OR *fastq"
 
 }
 ```
 * Minimap reference index is the index used for mapping contaminations, note it needs to end in fa.mmi
 * Experiment name is your experiment name, it is only for organizational purposes
-* input file is the "common denominator" across your raw files. 
+* input file is the "common denominator" across your raw files. This can also be a directory with all your files, like fastq/*fastq.gz
+* queue_size = maximum jobs to be sent at once. Not important for step 1. 0 Means no maximum. 
 
 2. Run nextflow
 ```
-module load nextflow # or Nextflow
-nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_1.nf -params-file 1_params.json -latest > step_1.log
+module load Nextflow # or nextflow for CCB
+nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_1.nf -params-file 1_params.json -r main -latest > step_1.log
 ```
-* If on on biochem cluster, you may need to specify repository: -r main
 - bg: background, enables run to continue even if you log out from cluster
+- -r means : which branch do you want to use? In most cases use main. 
 - latest ensures tnat the latest code is used from GitHub
 - stdout is saved into step_1.log
 - Pipeline creates output and intermediate folders. (Both are needed for the next step). 
@@ -110,53 +114,55 @@ Output: barcode_\*.fastq and barcode_\*.fastq.rds
 1. Create 2_step_params.json (below is an example for a large CELLO-seq run)
 ```
 {
-    "singularity": "/project/CELLOseq/shared/images/sarlacc.img",
-    "path": "/ceph/project/CELLOseq",
+    "singularity": "/home/bioc1647/images/sarlacc.img",
+    "path": "YOUR/HOME/DIR",
+    "queue_size": "100",
 
-    "queue": "test",
+    "queue": "himem-gen24",
     "time": "00:09:30",
     "memory": "20 GB",
 
-    "dt_queue": "",
-    "dt_cpus": "",
-    "dt_time": "",
-    "dt_mem": "",
+    "dt_queue": "himem-gen48",
+    "dt_cpus": "1",
+    "dt_time": "23:59:00",
+    "dt_mem": "30GB",
 
-    "tso_queue": "",
-    "tso_cpus": "",
-    "tso_time": "",
-    "tso_mem": "",
+    "tso_queue": "himem-gen48",
+    "tso_cpus": "1",
+    "tso_time": "23:59:00",
+    "tso_mem": "30GB",
 
-    "align_queue": "", 
-    "align_cpus": "",
-    "align_time": "",
-    "align_mem": "",
+    "align_queue": "himem-gen48",
+    "align_cpus": "2",
+    "align_time": "23:59:00",
+    "align_mem": "55GB",
 
-    "grouping_queue": "",
-    "grouping_cpus": "",
-    "grouping_time": "",
-    "grouping_mem": "",
+    "grouping_queue": "himem-gen48",
+    "grouping_cpus": "1",
+    "grouping_time": "60:00:00",
+    "grouping_mem": "30GB",
 
-    "err_queue": "",
-    "err_cpus": "",
-    "err_time": "",
-    "err_mem": "",
+    "err_queue": "himem-gen48",
+    "err_cpus": "1",
+    "err_time": "60:00:00",
+    "err_mem": "30GB",
 
-    "merge_queue": "",
-    "merge_cpus": "",
-    "merge_time": "",
-    "merge_mem": "",
+    "merge_queue": "himem-gen4",
+    "merge_cpus": "1",
+    "merge_time": "12:00:00",
+    "merge_mem": "10 GB",
 
-    "minimap_reference_index": "/ceph/project/CELLOseq/lmcleand/reference_genomes/Mus_musculus.GRCm39.dna.primary_assembly.fa.mmi",
-    "experiment_name": "all_plate",
-    "input_files" : "*.fastq.gz"
+
+    "minimap_reference_index": "YOUR/TRANSCRIPTOME/REFERENCEfa.mmi",
+    "experiment_name": "YOUR/EXPERIMENT/NAME",
+    "input_files" : "LEAVE/UNCHANGED"
 
 }
 ```
 2. Run nextflow (see above for description)
 ```
 module load nextflow # or Nextflow
-nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_2.nf -params-file 2_step_params.json -latest > step_2.log
+nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_2.nf -params-file 2_step_params.json -r main -latest > step_2.log
 ```
 3. Remove work/ only when you are done
 4. Continue to FLAIR pipeline
