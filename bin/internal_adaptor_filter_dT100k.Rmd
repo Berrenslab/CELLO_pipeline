@@ -71,14 +71,14 @@ We also create a reverse-complemented (RC) adaptor sequence, for alignment to th
 (rc.adap <- reverseComplement(adap))
 ```
 
-We then set up a wrapper function to obtain alignments and extract the necessary information. Notice that we split the original file into 20 subsets, this is done as pairwiseAlignment fails with files larger than 1.5GB. Hence, currently the largest single barcode can be around 25GB. 
+We then set up a wrapper function to obtain alignments and extract the necessary information. Notice that we split the original file into 20 subsets, this is done as pairwiseAlignment fails with files larger than 1.5GB. Hence, currently the largest single barcode can be around 50GB. 
 
 ```{r, echo=FALSE}
 library(S4Vectors)
 alnFun <- function(reads, y) {
-  dfs_list <- vector("list", 20)
-  indices <- split(1:length(reads), cut(1:length(reads), breaks = 20, labels = FALSE))
-  for (x in 1:20) {
+  dfs_list <- vector("list", 40)
+  indices <- split(1:length(reads), cut(1:length(reads), breaks = 40, labels = FALSE))
+  for (x in 1:40) {
     reads_sub <- reads[indices[[x]]]
     aln <- pairwiseAlignment(reads_sub, subject=y, type="local-global", gapOpening=5, gapExtension=1)
     dfs_list[[x]] <- DataFrame(start=start(pattern(aln)), end=end(pattern(aln)), score=score(aln))
