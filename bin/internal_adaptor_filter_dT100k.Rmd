@@ -76,9 +76,9 @@ We then set up a wrapper function to obtain alignments and extract the necessary
 ```{r, echo=FALSE}
 library(S4Vectors)
 alnFun <- function(reads, y) {
-  dfs_list <- vector("list", 40)
-  indices <- split(1:length(reads), cut(1:length(reads), breaks = 40, labels = FALSE))
-  for (x in 1:40) {
+  dfs_list <- vector("list", 60)
+  indices <- split(1:length(reads), cut(1:length(reads), breaks = 60, labels = FALSE))
+  for (x in 1:60) {
     reads_sub <- reads[indices[[x]]]
     aln <- pairwiseAlignment(reads_sub, subject=y, type="local-global", gapOpening=5, gapExtension=1)
     dfs_list[[x]] <- DataFrame(start=start(pattern(aln)), end=end(pattern(aln)), score=score(aln))
