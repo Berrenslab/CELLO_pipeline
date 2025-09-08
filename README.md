@@ -40,11 +40,6 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
     "path": "YOUR/HOME/DIR",
     "queue_size":  "0",
 
-    "queue": "cpu-gen",
-    "cpus": "1",
-    "time": "00:30:30",
-    "memory": "20 GB",
-
     "queue_merging": "cpu-gen",
     "cpus_merging": "1",
     "time_merging": "23:59:30",
