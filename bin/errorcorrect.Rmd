@@ -10,6 +10,7 @@ params:
   group_rds: ''
   fastq_rds: ''
   fastq_fastq: ''
+  project_name: ''
 ---
 
 ```{r, echo=FALSE, results="hide", message=FALSE}
@@ -90,13 +91,13 @@ We assign unique name for each of the errorcorrected reads, following the format
 
 ```{r}
 varnames <- c("ConsRead")
-names(cons.out) <- paste0(params$barcode, "_", varnames, "_", group_ID, "_", seq_along(cons.out))
+names(cons.out) <- paste0(params$project_name, "_", params$barcode, "_", varnames, "_", group_ID, "_", seq_along(cons.out))
 ```
 
 We now output the errorcorrected reads to a FASTQ file.
 
 ```{r}
-outfile <- paste0(params$barcode, "_", group_ID, "_corrected_all.fastq")
+outfile <- paste0(params$project_name, "_", params$barcode, "_", group_ID, "_corrected_all.fastq")
 writeXStringSet(cons.out, outfile, format="fastq", qualities = quality(cons.out))
 ```
 
