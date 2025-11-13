@@ -153,7 +153,7 @@ process err_corr{
     """
     singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/errorcorrect.Rmd', 
    knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD', params = 
-  list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds', fastq_fastq='$fastq_fastq'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
+  list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds', fastq_fastq='$fastq_fastq', project_name = '${params.experiment_name}'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
 
     """
 
