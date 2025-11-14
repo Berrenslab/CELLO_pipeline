@@ -148,7 +148,7 @@ process err_corr{
 
     output:
 
-    path "${params.experiment_name}_barcode_*_*_corrected_all.fastq"
+    path "barcode_*_*_corrected_all.fastq"
 
     script:
     """
@@ -174,12 +174,12 @@ process corrected_merge{
     file correct_fastqs
 
     output: 
-    path "corrected_barcode_*.fastq"
+    path "${params.experiment_name}_corrected_barcode_*.fastq"
 
     script:
     """ 
     for barcode in {1..96}; do
-        cat barcode_\${barcode}_*_corrected_all.fastq > corrected_barcode_\${barcode}.fastq || echo \$barcode
+        cat barcode_\${barcode}_*_corrected_all.fastq > ${params.experiment_name}_corrected_barcode_\${barcode}.fastq || echo \$barcode
     done
     
     """
