@@ -97,7 +97,7 @@ names(cons.out) <- paste0(params$project_name, "_", params$barcode, "_", varname
 We now output the errorcorrected reads to a FASTQ file.
 
 ```{r}
-outfile <- paste0(params$project_name, "_", params$barcode, "_", group_ID, "_corrected_all.fastq")
+outfile <- paste0(params$barcode, "_", group_ID, "_corrected_all.fastq")
 writeXStringSet(cons.out, outfile, format="fastq", qualities = quality(cons.out))
 ```
 
