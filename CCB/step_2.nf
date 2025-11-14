@@ -148,7 +148,7 @@ process err_corr{
 
     output:
 
-    path "${experiment_name}_barcode_*_*_corrected_all.fastq"
+    path "${params.experiment_name}_barcode_*_*_corrected_all.fastq"
 
     script:
     """
