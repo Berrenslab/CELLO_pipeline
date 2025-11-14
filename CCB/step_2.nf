@@ -147,13 +147,14 @@ process err_corr{
     tuple val(id), path(group_rds), path(fastq_rds), path(fastq_fastq)
 
     output:
+
     path "barcode_*_*_corrected_all.fastq"
 
     script:
     """
     singularity exec -B $params.path $params.singularity R --vanilla -e "rmarkdown::render('${baseDir}/../bin/errorcorrect.Rmd', 
    knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD', params = 
-  list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds', fastq_fastq='$fastq_fastq'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
+  list(barcode = '$id', group_rds = '$group_rds', fastq_rds = '$fastq_rds', fastq_fastq='$fastq_fastq', project_name = '${params.experiment_name}'), output_file = '${launchDir}/output/per_barcode_htmls/error_corr_${group_rds}.html')"
 
     """
 
@@ -173,12 +174,12 @@ process corrected_merge{
     file correct_fastqs
 
     output: 
-    path "corrected_barcode_*.fastq"
+    path "${params.experiment_name}_corrected_barcode_*.fastq"
 
     script:
     """ 
     for barcode in {1..96}; do
-        cat barcode_\${barcode}_*_corrected_all.fastq > corrected_barcode_\${barcode}.fastq || echo \$barcode
+        cat barcode_\${barcode}_*_corrected_all.fastq > ${params.experiment_name}_corrected_barcode_\${barcode}.fastq || echo \$barcode
     done
     
     """
