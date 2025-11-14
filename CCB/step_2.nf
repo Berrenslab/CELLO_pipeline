@@ -147,7 +147,8 @@ process err_corr{
     tuple val(id), path(group_rds), path(fastq_rds), path(fastq_fastq)
 
     output:
-    path "barcode_*_*_corrected_all.fastq"
+
+    path "${experiment_name}_barcode_*_*_corrected_all.fastq"
 
     script:
     """
