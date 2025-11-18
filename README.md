@@ -34,6 +34,7 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 * The parameters file specifies the resources to be used by each process 
 * note that the cpus / time / memory you ask is per task
 * The values below have been optimised for a promethION on the Genoa cluster
+* Note that experiment_name will be included in the name of your reads. 
 ```
 {
     "singularity": "/home/bioc1647/images/sarlacc.img",
@@ -72,15 +73,23 @@ Each run creates a html report (run_report_YYYY-MM-DD_hh-ss.html). If there are 
 * input file is the "common denominator" across your raw files. This can also be a directory with all your files, like fastq/*fastq.gz
 * queue_size = maximum jobs to be sent at once. Not important for step 1. 0 Means no maximum. 
 
-2. Run nextflow
+2. Run nextflow as a sh file 
 ```
-module load Nextflow # or nextflow for CCB
-nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_1.nf -params-file 1_params.json -r main -latest > step_1.log
+#!/bin/bash
+#SBATCH --job-name=nextflow_1
+#SBATCH --nodes=1
+#SBATCH --partition=cpu-gen
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1gb 
+
+module load Nextflow
+
+nextflow run 'https://github.com/Berrenslab/CELLO_pipeline.git' -main-script /CCB/step_1.nf -params-file 1.json -r main -latest
 ```
-- bg: background, enables run to continue even if you log out from cluster
 - -r means : which branch do you want to use? In most cases use main. 
 - latest ensures tnat the latest code is used from GitHub
-- stdout is saved into step_1.log
+- stdout is saved to slurm output 
 - Pipeline creates output and intermediate folders. (Both are needed for the next step). 
 - Only remove work/ dir once you are happy with the outcome
 ```
@@ -156,8 +165,17 @@ Output: barcode_\*.fastq and barcode_\*.fastq.rds
 ```
 2. Run nextflow (see above for description)
 ```
-module load nextflow # or Nextflow
-nextflow -bg run https://github.com/Berrenslab/CELLO_pipeline.git -main-script /CCB/step_2.nf -params-file 2_step_params.json -r main -latest > step_2.log
+#!/bin/bash
+#SBATCH --job-name=nextflow_2
+#SBATCH --nodes=1
+#SBATCH --partition=cpu-gen
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1gb 
+
+module load Nextflow
+
+nextflow run 'https://github.com/Berrenslab/CELLO_pipeline.git' -main-script /CCB/step_2.nf -params-file 2.json -r main -latest
 ```
 3. Remove work/ only when you are done
 4. Continue to FLAIR pipeline
