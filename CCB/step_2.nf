@@ -182,7 +182,7 @@ process corrected_merge{
         cat barcode_\${barcode}_*_corrected_all.fastq > ${params.experiment_name}_corrected_barcode_\${barcode}.fastq || echo \$barcode
     done
 
-    ${params.experiment_name}_corrected_barcode_*.fastq | xargs wc -l | awk '{print \$2, \$1/4}' > corrected_reads_per_cell.txt
+    ls ${params.experiment_name}_corrected_barcode_*.fastq | xargs wc -l | awk '{print \$2, \$1/4}' > corrected_reads_per_cell.txt
 
     singularity exec -B $params.path $params.singularity R --vanilla -e "
     rmarkdown::render('${baseDir}/../bin/corr_read_count.Rmd', knit_root_dir = '\$PWD' , intermediates_dir = '\$PWD',
