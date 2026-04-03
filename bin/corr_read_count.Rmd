@@ -34,6 +34,6 @@ barplot(df[order(as.numeric(row.names(df))),'V2'],
 
 ## Boxplot 
 ```{r box}
-ggplot(df, aes(y='V2')) +
+ggplot(df, aes(y=V2)) +
 geom_boxplot()
 ```
