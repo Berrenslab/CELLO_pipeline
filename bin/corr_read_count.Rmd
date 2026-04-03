@@ -1,18 +1,15 @@
 ---
 title: "read_counter"
 author: Francesco Rivetti
-output: html_document
-date: "2026-02-19"
+output:
+  BiocStyle::html_document:
+    toc_float: true
+    titlecaps: false
 ---
 
 ```{r setup, include=FALSE}
 library(ggplot2)
 library(stringr)
-```
-{params.experiment_name}_corrected_barcode_*.fastq
-
-```{bash}
-ls *fastq | xargs wc -l | awk '{print $2, $1/4}' > corrected_reads_per_cell.txt
 ```
 
 ```{r plot}
