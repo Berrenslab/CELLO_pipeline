@@ -1,0 +1,32 @@
+---
+title: "read_counter"
+author: Francesco Rivetti
+output: html_document
+date: "2026-02-19"
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+```
+
+
+```{bash}
+ls *fastq | xargs wc -l | awk '{print $2, $1/4}' > corrected_reads_per_cell.txt
+```
+
+```{r plot}
+df <- read.table('corrected_reads_per_cell.txt', sep = ' ')
+# remove total 
+df <- df[-dim(df)[1],]
+rownames(df) <- str_extract(df$V1, "(?<=corrected_barcode_)\\d+(?=\\.fastq)")
+df
+#plot
+barplot(df[order(as.numeric(row.names(df))),'V2'], 
+        names.arg = rownames(df),
+        main = "Distribution error-corrected reads",
+        xlab = "Barcode",
+        ylab = "Corrected reads",
+        col = "skyblue")
+
+```
