@@ -12,6 +12,8 @@ library(ggplot2)
 library(stringr)
 ```
 
+# Bar chart by barcode
+
 ```{r plot}
 df <- read.table('corrected_reads_per_cell.txt', sep = ' ')
 # remove total 
@@ -26,4 +28,12 @@ barplot(df[order(as.numeric(row.names(df))),'V2'],
         ylab = "Corrected reads",
         col = "skyblue")
 
+```
+
+# Box plot all barcodes
+
+## Boxplot 
+```{r box}
+ggplot(df, aes(y='V2')) +
+geom_boxplot()
 ```
