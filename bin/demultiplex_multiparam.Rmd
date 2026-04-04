@@ -171,6 +171,17 @@ barplot(false_counts,
         col = "skyblue")
 ```
 
+## Box plot of reads
+
+### True 
+
+```{r box true }
+ggplot(as.data.frame(true_counts), aes(y = Freq)) +
+  geom_boxplot()
+```
+
+### True
+
 ... and split them into their samples of origin:
 
 ```{r}
