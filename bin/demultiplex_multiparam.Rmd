@@ -173,10 +173,19 @@ barplot(false_counts,
 
 ## Box plot of reads
 
-### True 
+True 
 
 ```{r box true }
 boxplot(true_counts,
+        main = "Distribution of TRUE Counts",
+        ylab = "Counts",
+        col = "skyblue")
+```
+
+False
+
+```{r box false }
+boxplot(false_counts,
         main = "Distribution of TRUE Counts",
         ylab = "Counts",
         col = "skyblue")
