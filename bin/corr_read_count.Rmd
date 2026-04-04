@@ -34,6 +34,8 @@ barplot(df[order(as.numeric(row.names(df))),'V2'],
 
 ## Boxplot 
 ```{r box}
-ggplot(df, aes(y=V2)) +
-geom_boxplot()
+boxplot(df[order(as.numeric(row.names(df))),'V2'],
+        main = "Distribution of error-corrected reads",
+        ylab = "Counts",
+        col = "skyblue")
 ```
