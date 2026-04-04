@@ -176,6 +176,7 @@ barplot(false_counts,
 ### True 
 
 ```{r box true }
+library(ggplot2)
 ggplot(as.data.frame(true_counts), aes(y = Freq)) +
   geom_boxplot()
 ```
