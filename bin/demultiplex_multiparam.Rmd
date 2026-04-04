@@ -176,9 +176,10 @@ barplot(false_counts,
 ### True 
 
 ```{r box true }
-library(ggplot2)
-ggplot(as.data.frame(true_counts), aes(y = Freq)) +
-  geom_boxplot()
+boxplot(true_counts,
+        main = "Distribution of TRUE Counts",
+        ylab = "Counts",
+        col = "skyblue")
 ```
 
 ### True
