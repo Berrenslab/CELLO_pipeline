@@ -186,7 +186,7 @@ False
 
 ```{r box false }
 boxplot(false_counts,
-        main = "Distribution of TRUE Counts",
+        main = "Distribution of FALSE Counts",
         ylab = "Counts",
         col = "skyblue")
 ```
