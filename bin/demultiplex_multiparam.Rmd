@@ -171,6 +171,28 @@ barplot(false_counts,
         col = "skyblue")
 ```
 
+## Box plot of reads
+
+True 
+
+```{r box true }
+boxplot(true_counts,
+        main = "Distribution of TRUE Counts",
+        ylab = "Counts",
+        col = "skyblue")
+```
+
+False
+
+```{r box false }
+boxplot(false_counts,
+        main = "Distribution of FALSE Counts",
+        ylab = "Counts",
+        col = "skyblue")
+```
+
+### True
+
 ... and split them into their samples of origin:
 
 ```{r}

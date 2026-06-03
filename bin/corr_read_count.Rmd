@@ -1,0 +1,41 @@
+---
+title: "read_counter"
+author: Francesco Rivetti
+output:
+  BiocStyle::html_document:
+    toc_float: true
+    titlecaps: false
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+```
+
+# Bar chart by barcode
+
+```{r plot}
+df <- read.table('corrected_reads_per_cell.txt', sep = ' ')
+# remove total 
+df <- df[-dim(df)[1],]
+rownames(df) <- str_extract(df$V1, "(?<=corrected_barcode_)\\d+(?=\\.fastq)")
+df
+#plot
+barplot(df[order(as.numeric(row.names(df))),'V2'], 
+        names.arg = rownames(df),
+        main = "Distribution error-corrected reads",
+        xlab = "Barcode",
+        ylab = "Corrected reads",
+        col = "skyblue")
+
+```
+
+# Box plot all barcodes
+
+## Boxplot 
+```{r box}
+boxplot(df[order(as.numeric(row.names(df))),'V2'],
+        main = "Distribution of error-corrected reads",
+        ylab = "Counts",
+        col = "skyblue")
+```
